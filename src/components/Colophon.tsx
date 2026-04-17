@@ -41,8 +41,8 @@ const DEFAULT_LEGAL =
 
 /**
  * Colophon — uncluttered footer shared across every HEARTLAND site.
- * Always includes: brand block, optional site-specific blocks, Research,
- * HEARTLAND Network, and a copyright bar.
+ * Editorial font across every surface, matching the canonical layout used
+ * on synthetic.heartlandprotocol.org.
  */
 export function Colophon({
   currentSite,
@@ -55,24 +55,21 @@ export function Colophon({
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-[color:var(--color-grid)] bg-[color:var(--color-terminal)]">
+    <footer className="border-t border-grid bg-terminal">
       <div className="mx-auto max-w-[1200px] px-6 py-16">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-12">
           {/* Brand block */}
           <div className="md:col-span-5">
-            <a
-              href={site.url}
-              className="inline-flex items-center gap-2.5"
-            >
-              <HeartLineMark className="h-7 w-7 text-[color:var(--color-alert)]" />
-              <span className="text-[18px] font-semibold tracking-tight text-[color:var(--color-cool)]">
+            <a href={site.url} className="inline-flex items-center gap-2.5">
+              <HeartLineMark className="h-7 w-7 text-alert" />
+              <span className="font-editorial text-[18px] font-semibold tracking-tight text-cool">
                 {currentSite === 'home' ? 'Heartland' : `Heartland · ${site.shortLabel}`}
               </span>
             </a>
-            <p className="mt-4 max-w-md text-[14.5px] leading-relaxed text-[color:var(--color-cool)]/70">
+            <p className="mt-4 max-w-md font-editorial text-[14.5px] leading-relaxed text-cool/70">
               {description}
             </p>
-            <p className="mt-6 text-[12.5px] leading-relaxed text-[color:var(--color-stone)]">
+            <p className="mt-6 font-editorial text-[12.5px] leading-relaxed text-stone">
               {legal}
             </p>
           </div>
@@ -123,10 +120,8 @@ export function Colophon({
           </FooterBlock>
         </div>
 
-        <div className="mt-14 flex flex-col gap-3 border-t border-[color:var(--color-grid)] pt-6 text-[12.5px] text-[color:var(--color-stone)] md:flex-row md:items-center md:justify-between">
-          <p>
-            © {year} Vicky Muller Ferreira, MD · Released under MIT
-          </p>
+        <div className="mt-14 flex flex-col gap-3 border-t border-grid pt-6 font-editorial text-[12.5px] text-stone md:flex-row md:items-center md:justify-between">
+          <p>© {year} Vicky Muller Ferreira, MD · Released under MIT</p>
           <p>
             {currentSite === 'home' ? 'HEARTLAND Protocol' : `Heartland · ${site.shortLabel}`}
             {version ? ` · ${version}` : ''} · open source
@@ -146,10 +141,10 @@ function FooterBlock({
 }) {
   return (
     <div className="md:col-span-2">
-      <p className="mb-4 text-[12.5px] uppercase tracking-[0.18em] text-[color:var(--color-cool)]">
+      <p className="mb-4 font-editorial text-[12.5px] uppercase tracking-[0.18em] text-cool">
         {title}
       </p>
-      <ul className="space-y-3 text-[14.5px]">{children}</ul>
+      <ul className="space-y-3 font-editorial text-[14.5px]">{children}</ul>
     </div>
   );
 }
@@ -174,15 +169,13 @@ function FooterLink({
         href={href}
         {...externalAttrs}
         aria-current={current ? 'page' : undefined}
-        className={`inline-flex items-baseline gap-1 transition-colors hover:text-[color:var(--color-alert)] ${
-          current
-            ? 'text-[color:var(--color-cool)]'
-            : 'text-[color:var(--color-cool)]/80'
+        className={`inline-flex items-baseline gap-1 transition-colors hover:text-alert ${
+          current ? 'text-cool' : 'text-cool/80'
         }`}
       >
         {children}
         {external && (
-          <span className="text-[11px] text-[color:var(--color-stone)]" aria-hidden>
+          <span className="text-[11px] text-stone" aria-hidden>
             ↗
           </span>
         )}

@@ -31,11 +31,15 @@ export interface MastheadProps {
   navItems?: MastheadNavItem[];
   /** Optional primary CTA on the right. Omit on marketing sites with nothing to click. */
   cta?: MastheadCta;
+  /** Optional outlined secondary CTA shown to the left of the primary CTA (e.g. GitHub). */
+  secondaryCta?: MastheadCta;
   /**
    * Override the wordmark. Defaults to the site's label from the network config
    * (e.g. "Heartland" for home, "Heartland · Clinical App" for app).
    */
   wordmark?: ReactNode;
+  /** Optional small version chip shown after the wordmark (e.g. "v1.0.2"). */
+  version?: string;
   /** Homepage URL for the logo click target. Defaults to the current site's root. */
   homeHref?: string;
 }
@@ -48,36 +52,40 @@ function buildWordmark(currentSite: HeartlandSiteId): string {
 
 /**
  * Masthead — soft, generous nav bar shared by every HEARTLAND site.
- * Left: wordmark + HeartLineMark. Middle: optional navItems or network switcher.
- * Right: optional CTA.
+ * Sticky, warm-terminal background, editorial font across every node.
+ * Mirrors the canonical layout used on synthetic.heartlandprotocol.org.
  */
 export function Masthead({
   currentSite,
   navItems,
   cta,
+  secondaryCta,
   wordmark,
+  version,
   homeHref,
 }: MastheadProps) {
   const href = homeHref ?? findSite(currentSite).url;
   const label = wordmark ?? buildWordmark(currentSite);
 
   return (
-    <header className="border-b border-[color:var(--color-grid)] bg-[color:var(--color-terminal)]/85 backdrop-blur supports-[backdrop-filter]:bg-[color:var(--color-terminal)]/70">
+    <header className="sticky top-0 z-40 border-b border-grid bg-terminal/85 backdrop-blur supports-[backdrop-filter]:bg-terminal/70">
       <div className="mx-auto flex max-w-[1200px] items-center justify-between gap-8 px-6 py-5">
-        <a
-          href={href}
-          className="group flex items-center gap-2.5"
-        >
-          <HeartLineMark className="h-7 w-7 text-[color:var(--color-alert)] transition-transform group-hover:scale-105" />
-          <span className="text-[18px] font-semibold tracking-tight text-[color:var(--color-cool)]">
+        <a href={href} className="group flex items-center gap-2.5">
+          <HeartLineMark className="h-7 w-7 text-alert transition-transform group-hover:scale-105" />
+          <span className="font-editorial text-[18px] font-semibold tracking-tight text-cool">
             {label}
           </span>
+          {version ? (
+            <span className="ml-1 hidden rounded-full border border-grid bg-panel px-2 py-0.5 font-mono text-[10.5px] tracking-tight text-cool/70 sm:inline-flex">
+              {version}
+            </span>
+          ) : null}
         </a>
 
         {navItems && navItems.length > 0 ? (
           <nav
             aria-label="Primary"
-            className="hidden items-center gap-8 text-[14px] text-[color:var(--color-cool)]/80 md:flex"
+            className="hidden items-center gap-8 font-editorial text-[14px] text-cool/80 md:flex"
           >
             {navItems.map((item) => (
               <a
@@ -85,7 +93,7 @@ export function Masthead({
                 href={item.href}
                 target={item.external ? '_blank' : undefined}
                 rel={item.external ? 'noopener noreferrer' : undefined}
-                className="transition-colors hover:text-[color:var(--color-alert)]"
+                className="transition-colors hover:text-alert"
               >
                 {item.label}
               </a>
@@ -95,19 +103,36 @@ export function Masthead({
           <NetworkSwitcher currentSite={currentSite} />
         )}
 
-        {cta ? (
-          <a
-            href={cta.href}
-            target={cta.external ? '_blank' : undefined}
-            rel={cta.external ? 'noopener noreferrer' : undefined}
-            className="group inline-flex items-center gap-2 rounded-full bg-[color:var(--color-cool)] px-5 py-2.5 text-[13.5px] font-medium text-[color:var(--color-terminal)] transition-colors hover:bg-[color:var(--color-alert)] hover:text-[color:var(--color-cool)]"
-          >
-            {cta.label}
-            <span className="transition-transform group-hover:translate-x-0.5" aria-hidden>
-              →
-            </span>
-          </a>
-        ) : null}
+        <div className="flex items-center gap-2">
+          {secondaryCta ? (
+            <a
+              href={secondaryCta.href}
+              target={secondaryCta.external ? '_blank' : undefined}
+              rel={secondaryCta.external ? 'noopener noreferrer' : undefined}
+              className="hidden items-center gap-2 rounded-full border border-grid bg-panel px-4 py-2.5 font-editorial text-[13.5px] font-medium text-cool/85 transition-colors hover:border-cool/40 hover:text-cool sm:inline-flex"
+            >
+              {secondaryCta.label}
+              {secondaryCta.external ? (
+                <span className="text-[11px] text-stone" aria-hidden>
+                  ↗
+                </span>
+              ) : null}
+            </a>
+          ) : null}
+          {cta ? (
+            <a
+              href={cta.href}
+              target={cta.external ? '_blank' : undefined}
+              rel={cta.external ? 'noopener noreferrer' : undefined}
+              className="group inline-flex items-center gap-2 rounded-full bg-cool px-5 py-2.5 font-editorial text-[13.5px] font-medium text-terminal transition-colors hover:bg-alert hover:text-cool"
+            >
+              {cta.label}
+              <span className="transition-transform group-hover:translate-x-0.5" aria-hidden>
+                →
+              </span>
+            </a>
+          ) : null}
+        </div>
       </div>
     </header>
   );
@@ -121,23 +146,23 @@ export function Masthead({
 function NetworkSwitcher({ currentSite }: { currentSite: HeartlandSiteId }) {
   return (
     <details className="relative hidden md:block">
-      <summary className="cursor-pointer list-none text-[14px] text-[color:var(--color-cool)]/80 transition-colors hover:text-[color:var(--color-alert)]">
+      <summary className="cursor-pointer list-none font-editorial text-[14px] text-cool/80 transition-colors hover:text-alert">
         HEARTLAND Network ▾
       </summary>
-      <ul className="absolute right-0 top-full z-50 mt-3 w-72 rounded-2xl border border-[color:var(--color-grid)] bg-[color:var(--color-panel)] p-3 shadow-lg">
+      <ul className="absolute right-0 top-full z-50 mt-3 w-72 rounded-2xl border border-grid bg-panel p-3 shadow-lg">
         {HEARTLAND_NETWORK.map((site) => (
           <li key={site.id}>
             <a
               href={site.url}
-              className={`block rounded-lg px-3 py-2 text-[13.5px] transition-colors hover:bg-[color:var(--color-panel-hi)] ${
+              className={`block rounded-lg px-3 py-2 font-editorial text-[13.5px] transition-colors hover:bg-panel-hi ${
                 site.id === currentSite
-                  ? 'bg-[color:var(--color-panel-hi)] text-[color:var(--color-cool)]'
-                  : 'text-[color:var(--color-cool)]/80'
+                  ? 'bg-panel-hi text-cool'
+                  : 'text-cool/80'
               }`}
               aria-current={site.id === currentSite ? 'page' : undefined}
             >
               <span className="block font-medium">{site.label}</span>
-              <span className="mt-0.5 block text-[12px] text-[color:var(--color-stone)]">
+              <span className="mt-0.5 block text-[12px] text-stone">
                 {site.url.replace('https://', '')}
               </span>
             </a>
