@@ -1,0 +1,52 @@
+{
+  "name": "@heartland/ui",
+  "version": "0.1.0",
+  "description": "Shared header, footer, and design tokens for the HEARTLAND Protocol network of sites.",
+  "author": "Vicky Muller Ferreira, MD <vickymuller@heartlandprotocol.org>",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./css/theme.css": "./src/css/theme.css",
+    "./tokens/network": {
+      "types": "./dist/tokens/network.d.ts",
+      "import": "./dist/tokens/network.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src/css"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "react": "^18 || ^19",
+    "react-dom": "^18 || ^19"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "tsup": "^8.3.0",
+    "typescript": "^5.9.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vickymuller-md/heartland-ui.git"
+  },
+  "keywords": [
+    "heartland",
+    "design-system",
+    "masthead",
+    "footer",
+    "rural-health"
+  ]
+}
