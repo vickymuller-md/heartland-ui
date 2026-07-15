@@ -85,7 +85,7 @@ export const HEARTLAND_NETWORK: readonly HeartlandNetworkEntry[] = [
 
 /** External references that appear across multiple site footers. */
 export const HEARTLAND_EXTERNAL_LINKS = {
-  zenodo: 'https://doi.org/10.5281/zenodo.18566403',
+  zenodo: 'https://doi.org/10.5281/zenodo.19101219',
   osf: 'https://doi.org/10.17605/OSF.IO/YUSGH',
   cureus: 'https://www.cureus.com/',
   medrxiv: 'https://www.medrxiv.org/',
