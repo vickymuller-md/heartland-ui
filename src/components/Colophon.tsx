@@ -31,10 +31,16 @@ export interface ColophonProps {
   legal?: ReactNode;
   /** Version label shown at the bottom right. E.g. "v3.2", "v1.0.2". */
   version?: string;
+  /**
+   * Optional archived record of the current site's software (e.g. the App's
+   * Zenodo DOI). Rendered in the Research block so software identity is never
+   * conflated with the Toolkit or the article.
+   */
+  archive?: ColophonLink;
 }
 
 const DEFAULT_DESCRIPTION =
-  'Heart failure Evidence-based Access in Rural Treatment, Linking Advanced Network Delivery — a peer-reviewed implementation framework and its companion open-source toolkit.';
+  'Heart failure Evidence-based Access in Rural Treatment, Linking Advanced Network Delivery — an implementation framework described in a peer-reviewed article, with an open-source companion toolkit and app.';
 
 const DEFAULT_LEGAL =
   'Built by Vicky Muller Ferreira, MD. For licensed clinicians only. Not a medical device. Not for direct patient care. No patient health information is ever stored.';
@@ -50,6 +56,7 @@ export function Colophon({
   description = DEFAULT_DESCRIPTION,
   legal = DEFAULT_LEGAL,
   version,
+  archive,
 }: ColophonProps) {
   const site = findSite(currentSite);
   const year = new Date().getFullYear();
@@ -95,8 +102,13 @@ export function Colophon({
               Cureus article
             </FooterLink>
             <FooterLink href={HEARTLAND_EXTERNAL_LINKS.zenodo} external>
-              Zenodo deposit
+              Implementation Toolkit V3.3 (Zenodo)
             </FooterLink>
+            {archive && (
+              <FooterLink href={archive.href} external={archive.external ?? true}>
+                {archive.label}
+              </FooterLink>
+            )}
             <FooterLink href={HEARTLAND_EXTERNAL_LINKS.osf} external>
               OSF deposit
             </FooterLink>
