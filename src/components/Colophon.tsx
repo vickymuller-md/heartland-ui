@@ -43,7 +43,7 @@ const DEFAULT_DESCRIPTION =
   'Heart failure Evidence-based Access in Rural Treatment, Linking Advanced Network Delivery — an implementation framework described in a peer-reviewed article, with an open-source companion toolkit and app.';
 
 const DEFAULT_LEGAL =
-  'Built by Vicky Muller Ferreira, MD. For licensed clinicians only. Not a medical device. Not for direct patient care. No patient health information is ever stored.';
+  'Built by Vicky Muller Ferreira, MD. Educational implementation-support resource for healthcare professionals. Not medical advice, not a diagnostic tool, and not a substitute for clinical judgment.';
 
 /**
  * Colophon — uncluttered footer shared across every HEARTLAND site.
